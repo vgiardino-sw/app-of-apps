@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prometheus
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: monitoring
+    server: {{ .Values.spec.destination.server }}
+  project: default
+  source:
+    repoURL: https://prometheus-community.github.io/helm-charts
+    chart: prometheus
+    targetRevision: 25.26.0
+    helm:
+      values: |
+        extraScrapeConfigs: |
+          - job_name: 'fastapi'
+            kubernetes_sd_configs:
+              - role: endpoints
+            relabel_configs:
+              - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name]
+                action: keep
+                regex: fastapi;fastapi
+        prometheus-pushgateway:
+          fullnameOverride: prometheus-pushgateway-custom
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
