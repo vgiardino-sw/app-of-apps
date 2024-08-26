@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: https://github.com/vgiardino-sw/app-of-apps.git
     targetRevision: main
-    path: apps
+    path: main
   destination:
     server: https://kubernetes.default.svc
   syncPolicy:
