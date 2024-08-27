@@ -1,24 +1,16 @@
-{{- $namespace := .Values.namespace }}
-{{- range $name, $configMap := .Values.configMaps }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ $name }}
-  namespace: {{ $namespace }}
+  name: {{ .Values.configMapName }}
+  namespace: {{ .Values.namespace }}
   labels:
-    {{- range $key, $value := $configMap.labels }}
-    {{ $key }}: {{ quote $value }}
-    {{- end }}
+    {{- include "monitoring-chart.labels" . | nindent 4 }}
   annotations:
-    {{- range $key, $value := $configMap.annotations }}
-    {{ $key }}: {{ quote $value }}
+    {{- with .Values.annotations }}
+    {{- toYaml . | nindent 4 }}
     {{- end }}
 data:
-  ec-metrics-dashboard.json: |
-    {{- $.Files.Get "/dashboards/ec-metrics-dashboard.json" | nindent 4 }}
-  node-exporter-full-1860.json: |
-    {{- $.Files.Get "/dashboards/node-exporter-full-1860.json" | nindent 4 }}
-  api-metrics-dashboard.json: |
-    {{- $.Files.Get "/dashboards/api-metrics-dashboard.json" | nindent 4 }}
-
-{{- end }}
+  {{- range $key, $filePath := .Values.configMaps.data }}
+  {{ $key }}: |
+    {{- $.Files.Get $filePath | nindent 4 }}
+  {{- end }}

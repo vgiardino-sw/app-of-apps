@@ -3,16 +3,17 @@ spec:
     server: https://kubernetes.default.svc
 
 
+configMapName: grafana-dashboard-custom
 namespace: monitoring
-
+labels:
+  grafana_dashboard: "1"
+annotations:
+  k8s-sidecar-target-directory: /tmp/dashboards/custom
 configMaps:
-  grafana-dashboard-custom:
-    labels:
-      grafana_dashboard: "1"
-    annotations:
-      k8s-sidecar-target-directory: "/tmp/dashboards/custom"
-    data:
-      api-metrics-dashboard.json: "/dashboards/api-metrics-dashboard.json"
-      ec-metrics-dashboard.json: "/dashboards/ec-metrics-dashboard.json"
-      node-exporter-full-1860.json: "/dashboards/node-exporter-full-1860.json"
+  data:
+    api-metrics-dashboard.json: "dashboards/api-metrics-dashboard.json"
+    ec-metrics-dashboard.json: "dashboards/ec-metrics-dashboard.json"
+    node-exporter-full-1860.json: "dashboards/node-exporter-full-1860.json"
+
+
 
