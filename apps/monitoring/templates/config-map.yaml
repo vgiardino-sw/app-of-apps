@@ -14,10 +14,11 @@ metadata:
     {{ $key }}: {{ quote $value }}
     {{- end }}
 data:
+  ec-metrics-dashboard.json: |
+    {{- $.Files.Get "/dashboards/ec-metrics-dashboard.json" | nindent 4 }}
   node-exporter-full-1860.json: |
     {{- $.Files.Get "/dashboards/node-exporter-full-1860.json" | nindent 4 }}
   api-metrics-dashboard.json: |
     {{- $.Files.Get "/dashboards/api-metrics-dashboard.json" | nindent 4 }}
-  ec-metrics-dashboard.json: |
-    {{- $.Files.Get "/dashboards/ec-metrics-dashboard.json" | nindent 4 }}
+
 {{- end }}
