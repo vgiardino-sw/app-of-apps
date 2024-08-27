@@ -4,13 +4,9 @@ metadata:
   name: {{ .Values.configMapName }}
   namespace: {{ .Values.namespace }}
   labels:
-    {{- with .Values.labels }}
-    {{- toYaml . | nindent 4 }}
-    {{- end }}
+    grafana_dashboard: "1"
   annotations:
-    {{- with .Values.annotations }}
-    {{- toYaml . | nindent 4 }}
-    {{- end }}
+    k8s-sidecar-target-directory: /tmp/dashboards/custom
 data:
   {{- range $key, $filePath := .Values.configMaps.data }}
   {{ $key }}: |
