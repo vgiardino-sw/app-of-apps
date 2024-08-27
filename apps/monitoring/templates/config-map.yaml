@@ -1,0 +1,22 @@
+{{- $namespace := .Values.namespace }}
+{{- range $name, $configMap := .Values.configMaps }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $name }}
+  namespace: {{ $namespace }}
+  labels:
+    {{- range $key, $value := $configMap.labels }}
+    {{ $key }}: {{ $value }}
+    {{- end }}
+  annotations:
+    {{- range $key, $value := $configMap.annotations }}
+    {{ $key }}: {{ $value }}
+    {{- end }}
+data:
+  {{- range $key, $file := $configMap.data }}
+  {{ $key }}: |
+    {{- $content := .Files.Get $file | indent 4 }}
+    {{ $content }}
+  {{- end }}
+{{- end }}
