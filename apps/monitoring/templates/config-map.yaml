@@ -7,11 +7,11 @@ metadata:
   namespace: {{ $namespace }}
   labels:
     {{- range $key, $value := $configMap.labels }}
-    {{ $key }}: {{ $value }}
+    {{ $key }}: {{ quote $value }}
     {{- end }}
   annotations:
     {{- range $key, $value := $configMap.annotations }}
-    {{ $key }}: {{ $value }}
+    {{ $key }}: {{ quote $value }}
     {{- end }}
 data:
   api-metrics-dashboard.json: |
