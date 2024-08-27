@@ -13,7 +13,7 @@ configMaps:
   data:
     api-metrics-dashboard.json: "dashboards/api-metrics-dashboard.json"
     ec-metrics-dashboard.json: "dashboards/ec-metrics-dashboard.json"
-    node-exporter-full-1860.json: "dashboards/node-exporter-full-1860.json"
+    #node-exporter-full-1860.json: "dashboards/node-exporter-full-1860.json"
 
 
 
