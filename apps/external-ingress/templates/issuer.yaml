@@ -1,9 +1,7 @@
----
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: my-app
-  namespace: argocd
+  name: issuer
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -11,7 +9,7 @@ spec:
   source:
     repoURL: https://github.com/vgiardino-sw/app-of-apps.git
     targetRevision: main
-    path: main
+    path: issuer-chart
   destination:
     server: https://kubernetes.default.svc
   syncPolicy:
