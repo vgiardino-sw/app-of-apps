@@ -1,39 +1,20 @@
-{{- if .Values.certManager.staging.enabled }}
+{{- range .Values.certManager.issuers }}
+{{- if .enabled }}
 ---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: staging
+  name: {{ .name }}
 spec:
   acme:
-    email: {{ .Values.certManager.email }}
-    server: {{ .Values.certManager.staging.server }}
+    email: {{ $.Values.certManager.email }}
+    server: {{ .server }}
     privateKeySecretRef:
-      name: {{ .Values.certManager.staging.privateKeySecretRef }}
+      name: {{ .privateKeySecretRef }}
     solvers:
       - selector: {}
         http01:
           ingress:
-            class: external-nginx
----
+            class: {{ .ingressClass }}
 {{- end }}
-
-{{- if .Values.certManager.production.enabled }}
----
-apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
-metadata:
-  name: production
-spec:
-  acme:
-    email: {{ .Values.certManager.email }}
-    server: {{ .Values.certManager.production.server }}
-    privateKeySecretRef:
-      name: {{ .Values.certManager.production.privateKeySecretRef }}
-    solvers:
-      - selector: {}
-        http01:
-          ingress:
-            class: external-nginx
----
 {{- end }}

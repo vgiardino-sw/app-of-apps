@@ -4,13 +4,16 @@
 
 certManager:
   email: "valentino.giardino@southworks.com"
+  
+  issuers:
+    - name: "staging"
+      enabled: true
+      server: "https://acme-staging-v02.api.letsencrypt.org/directory"
+      privateKeySecretRef: "staging-cluster-issuer"
+      ingressClass: "external-nginx"
 
-  staging:
-    enabled: true
-    server: "https://acme-staging-v02.api.letsencrypt.org/directory"
-    privateKeySecretRef: "staging-cluster-issuer"
-
-  production:
-    enabled: true
-    server: "https://acme-v02.api.letsencrypt.org/directory"
-    privateKeySecretRef: "production-cluster-issuer"
+    - name: "production"
+      enabled: true
+      server: "https://acme-v02.api.letsencrypt.org/directory"
+      privateKeySecretRef: "production-cluster-issuer"
+      ingressClass: "external-nginx"
